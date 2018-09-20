@@ -9,12 +9,12 @@
 
 void display_log(GLuint object, void (*param_func)(), void (*getlog_func)())
 {
-  GLint log_length;
+  GLint log_width;
   char *log;
 
-  param_func(object, GL_INFO_LOG_LENGTH, &log_length);
-  log = malloc(log_length);
-  getlog_func(object, log_length, NULL, log);
+  param_func(object, GL_INFO_LOG_LENGTH, &log_width);
+  log = malloc(log_width);
+  getlog_func(object, log_width, NULL, log);
   fprintf(stderr, "%s", log);
   free(log);
 }
@@ -23,7 +23,7 @@ void display_log(GLuint object, void (*param_func)(), void (*getlog_func)())
 int mlx_shaders_pixel(glsl_info_t *glsl)
 {
   char  *source;
-  int	length;
+  int	width;
   GLint action_ok;
 
   glsl->pixel_vshader = glCreateShader(GL_VERTEX_SHADER);
@@ -35,8 +35,8 @@ int mlx_shaders_pixel(glsl_info_t *glsl)
 		  " gl_Position = vec4( position, 0.0, 1.0);"
 		  " texcoord = vec2(position[0]+1.0, 1.0 - position[1]) / 2.0;"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->pixel_vshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->pixel_vshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->pixel_vshader);
   free(source);
 
@@ -55,8 +55,8 @@ int mlx_shaders_pixel(glsl_info_t *glsl)
 		  "{"
 		  " gl_FragColor = texture2D(texture, texcoord);"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->pixel_fshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->pixel_fshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->pixel_fshader);
   free(source);
 
@@ -88,7 +88,7 @@ int mlx_shaders_pixel(glsl_info_t *glsl)
 int mlx_shaders_image(glsl_info_t *glsl)
 {
   char  *source;
-  int	length;
+  int	width;
   GLint action_ok;
 
   glsl->image_vshader = glCreateShader(GL_VERTEX_SHADER);
@@ -105,8 +105,8 @@ int mlx_shaders_image(glsl_info_t *glsl)
 		  " pos = pos / winhalfsize;"
 		  " gl_Position = vec4( pos, 0.0, 1.0);"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->image_vshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->image_vshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->image_vshader);
   free(source);
 
@@ -125,8 +125,8 @@ int mlx_shaders_image(glsl_info_t *glsl)
 		  "{"
 		  " gl_FragColor = texture2D(texture, texcoord);"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->image_fshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->image_fshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->image_fshader);
   free(source);
 
@@ -160,7 +160,7 @@ int mlx_shaders_image(glsl_info_t *glsl)
 int mlx_shaders_font(glsl_info_t *glsl)
 {
   char  *source;
-  int	length;
+  int	width;
   GLint action_ok;
 
   glsl->font_vshader = glCreateShader(GL_VERTEX_SHADER);
@@ -178,8 +178,8 @@ int mlx_shaders_font(glsl_info_t *glsl)
 		  " pos = pos / winhalfsize;"
 		  " gl_Position = vec4( pos, 0.0, 1.0);"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->font_vshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->font_vshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->font_vshader);
   free(source);
 
@@ -199,8 +199,8 @@ int mlx_shaders_font(glsl_info_t *glsl)
 		  "{"
 		  " gl_FragColor = color * texture2D(texture, texcoord);"
 		  "}");
-  length = strlen(source);
-  glShaderSource(glsl->font_fshader, 1, (const GLchar**)&source, &length);
+  width = strlen(source);
+  glShaderSource(glsl->font_fshader, 1, (const GLchar**)&source, &width);
   glCompileShader(glsl->font_fshader);
   free(source);
 

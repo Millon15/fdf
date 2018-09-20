@@ -1,16 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_module.c                                        :+:      :+:    :+:   */
+/*   ft_intlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vbrazas <vbrazas@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/05/22 21:04:35 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/05/31 12:53:55 by vbrazas          ###   ########.fr       */
+/*   Created: 2018/09/19 00:51:40 by vbrazas           #+#    #+#             */
+/*   Updated: 2018/09/19 00:51:43 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int			ft_module(int x)
+int			ft_intlen(int d)
 {
-	return (x < 0 ? -x : x);
+	int		len;
+
+	len = 1;
+	while (d /= 10)
+		len++;
+	return (len);
 }

@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 20:15:12 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 19:59:33 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 03:02:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,7 +133,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdelcont(void *content, size_t content_size);
 void				ft_swap(int *a, int *b);
 int					*ft_range(int min, int max);
-void				ft_foreach(int *tab, int length, void (*f)(int));
+void				ft_foreach(int *tab, int width, void (*f)(int));
 int					ft_atoi_base(const char *s, int base);
 unsigned long		ft_atou_base(const char *s, int base);
 char				*ft_utoa_base(size_t value, const int base,
@@ -150,7 +150,8 @@ ssize_t				ft_putnstr(char const *s, size_t len);
 ssize_t				ft_putnstr_fd(char const *s, int fd, size_t len);
 ssize_t				ft_putnendl(char const *s, size_t len);
 ssize_t				ft_putnendl_fd(char const *s, int fd, size_t len);
-int					ft_module(int x);
+int					ft_intlen(int d);
+int					ft_abs(int x);
 char				*checkintstr(char *str);
 int					ft_islowercase(const int c);
 int					ft_isuppercase(const int c);

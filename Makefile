@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/08/13 19:52:44 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/18 23:10:25 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/09/20 06:45:24 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ LFLAGS +=	-framework OpenGL -framework AppKit
 LFLAGS +=	-lm -lmlx -lftprintf 
 
 HDRS :=		$(INC_PATH)fdf.h $(MLX_PATH)mlx.h
-FILES :=	fdf
+FILES :=	fdf obtain_map print_map
 LIB :=		$(LIB_PATH)libftprintf.a $(MLX_PATH)libmlx.a
 
 SRCS :=		$(addprefix $(SRC_PATH), $(addsuffix .c, $(FILES)))

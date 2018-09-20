@@ -6,17 +6,17 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/26 19:39:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2017/11/19 14:48:54 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 03:02:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_foreach(int *tab, int length, void (*f)(int))
+void	ft_foreach(int *tab, int width, void (*f)(int))
 {
 	int		i;
 
 	i = 0;
-	if (!tab || !f || length <= 0)
+	if (!tab || !f || width <= 0)
 		return ;
-	while (i < length)
+	while (i < width)
 		f(tab[i++]);
 }

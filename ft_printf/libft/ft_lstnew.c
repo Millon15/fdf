@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/10 16:26:43 by vbrazas           #+#    #+#             */
-/*   Updated: 2017/12/06 12:32:43 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 01:00:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_list	*ft_lstnew(void const *content, size_t content_size)
 			free(t);
 			return (NULL);
 		}
-		ft_memcpy(t->content, content, content_size);
+		ft_memmove(t->content, content, content_size);
 		t->content_size = content_size;
 	}
 	t->next = NULL;

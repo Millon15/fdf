@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 20:15:12 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/08/14 19:59:18 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/19 03:02:38 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ t_list				*ft_lstmap(t_list *lst, t_list *(*f)(t_list *elem));
 void				ft_lstdelcont(void *content, size_t content_size);
 void				ft_swap(int *a, int *b);
 int					*ft_range(int min, int max);
-void				ft_foreach(int *tab, int length, void (*f)(int));
+void				ft_foreach(int *tab, int width, void (*f)(int));
 char				*ft_itoa_base(int value, int base);
 int					ft_atoi_base(const char *s, int base);
 unsigned long		ft_atou_base(const char *s, int base);
