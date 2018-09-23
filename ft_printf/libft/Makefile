@@ -6,7 +6,7 @@
 #    By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/12/28 19:24:02 by vbrazas           #+#    #+#              #
-#    Updated: 2018/09/19 00:54:00 by vbrazas          ###   ########.fr        #
+#    Updated: 2018/09/23 05:18:04 by vbrazas          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,8 @@ SRC	=	ft_strlen.c \
 		ft_putnendl_fd.c \
 		get_next_line.c \
 		ft_abs.c \
+		ft_min.c \
+		ft_max.c \
 		checkintstr.c \
 		ft_islowercase.c \
 		ft_isuppercase.c \

@@ -6,66 +6,111 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 06:39:02 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 13:20:36 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 17:14:13 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-static inline int	put_center(int i, int j)
+static inline void		put_pixel_on_image(t_fdf *f, int x, int y)
 {
-	return (i * SCALE / 2 + j * SCALE / 4);
+	f->dim[y * f->line_size / sizeof(int) + x] =
+	mlx_get_color_value(f->mlx, 0xffffff);
 }
 
-static inline void	bond_two_pixels(t_coo p[2], t_fdf *f)
+static inline void		put_pixels1(t_coo p[2], t_fdf *f,
+	const t_coo *d, const int iter[2])
 {
-	int			x;
-	int			y;
+	int				di;
+	int				x;
+	int				y;
+	int				i;
+	const t_coo		s = {
 
-	x = p[0].x;
+	(p[1].x >= p[0].x) ? 1 : -1, (p[1].y >= p[0].y) ? 1 : -1};
+	di = (d->y << 1) - d->x;
+	x = p[0].x + s.x;
 	y = p[0].y;
-	if (p[0].x <= p[1].x && p[0].y <= p[1].y)
-		while (x <= p[1].x || y <= p[1].y)
-			mlx_pixel_put(f->mlx, f->win,
-			(x <= p[1].x) ? x++ : x,
-			(y <= p[1].y) ? y++ : y, 0xffffff);
-	else if (p[0].x >= p[1].x && p[0].y <= p[1].y)
-		while (x >= p[1].x || y <= p[1].y)
-			mlx_pixel_put(f->mlx, f->win,
-			(x >= p[1].x) ? x-- : x,
-			(y <= p[1].y) ? y++ : y, 0xffffff);
-	else if (p[0].x <= p[1].x && p[0].y >= p[1].y)
-		while (x <= p[1].x || y >= p[1].y)
-			mlx_pixel_put(f->mlx, f->win,
-			(x <= p[1].x) ? x++ : x,
-			(y >= p[1].y) ? y-- : y, 0xffffff);
-	else if (p[0].x >= p[1].x && p[0].y >= p[1].y)
-		while (x >= p[1].x || y >= p[1].y)
-			mlx_pixel_put(f->mlx, f->win,
-			(x >= p[1].x) ? x-- : x,
-			(y >= p[1].y) ? y-- : y, 0xffffff);
+	i = 1;
+	while (i <= d->x)
+	{
+		if (di > 0)
+		{
+			di += iter[1];
+			y += s.y;
+		}
+		else
+			di += iter[0];
+		put_pixel_on_image(f, x, y);
+		x += s.x;
+		i++;
+	}
 }
 
-inline void			put_map(t_fdf *f)
+static inline void		put_pixels2(t_coo p[2], t_fdf *f,
+	const t_coo *d, const int iter[2])
 {
-	t_coo		p[2];
-	int			x;
-	int			y;
+	int				di;
+	int				x;
+	int				y;
+	int				i;
+	const t_coo		s = {
 
-	y = -1;
-	while (++y <= f->max.y)
+	(p[1].x >= p[0].x) ? 1 : -1, (p[1].y >= p[0].y) ? 1 : -1};
+	di = (d->x << 1) - d->y;
+	y = p[0].y + s.y;
+	x = p[0].x;
+	i = 1;
+	put_pixel_on_image(f, p[0].x, p[0].y);
+	while (i <= d->y)
 	{
-		x = -1;
-		p[0].y = put_center(y, f->max.y);
-		while (++x <= f->max.x)
+		if (di > 0)
 		{
-			p[0].x = put_center(x, f->max.x);
-			p[1].x = p[0].x;
-			p[1].y = put_center(y + 1, f->max.y);
-			(y + 1 <= f->max.y) ? bond_two_pixels(p, f) : 0;
-			p[1].x = put_center(x + 1, f->max.x);
-			p[1].y = put_center(y, f->max.y);
-			(x + 1 <= f->max.x) ? bond_two_pixels(p, f) : 0;
+			di += iter[1];
+			x += s.x;
 		}
+		else
+			di += iter[0];
+		put_pixel_on_image(f, x, y);
+		y += s.y;
+		i++;
 	}
+}
+
+static inline void		bond_two_pixels(t_coo p[2], t_fdf *f)
+{
+	const t_coo		d = {ft_abs(p[1].x - p[0].x), ft_abs(p[1].y - p[0].y)};
+	const int		iter[2] = {
+		((d.y <= d.x) ? d.y : d.x) << 1,
+		((d.y <= d.x) ? d.y - d.x : d.x - d.y) << 1};
+
+	if (d.y <= d.x)
+		put_pixels1(p, f, &d, iter);
+	else
+		put_pixels2(p, f, &d, iter);
+}
+
+inline void				put_map(t_fdf *f)
+{
+	int				line_down;
+	t_coo			p[2];
+	int				i;
+
+	ft_bzero(f->dim, IMG_MAX_Y * IMG_MAX_X * sizeof(int));
+	mlx_clear_window(f->mlx, f->win);
+	i = -1;
+	while (++i <= VOLUME)
+	{
+		p[0].x = MAP[i].x;
+		p[0].y = MAP[i].y;
+		if ((i + 1) % MX.x
+		&& (p[1].x = MAP[i + 1].x) | 1
+		&& (p[1].y = MAP[i].y) | 1)
+			bond_two_pixels(p, f);
+		if ((line_down = i + MX.x) < VOLUME
+		&& (p[1].x = MAP[line_down].x) | 1
+		&& (p[1].y = MAP[line_down].y) | 1)
+			bond_two_pixels(p, f);
+	}
+	mlx_put_image_to_window(f->mlx, f->win, f->img, 0, 0);
 }

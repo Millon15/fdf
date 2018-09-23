@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/30 20:15:12 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/19 03:02:38 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 05:17:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@
 */
 
 # define GET_NEXT_LINE_H
-# define BUFF_SIZE 42
+# define BUFF_SIZE 4096
 
 typedef	struct		s_gnl
 {
@@ -151,7 +151,9 @@ ssize_t				ft_putnstr_fd(char const *s, int fd, size_t len);
 ssize_t				ft_putnendl(char const *s, size_t len);
 ssize_t				ft_putnendl_fd(char const *s, int fd, size_t len);
 int					ft_intlen(int d);
-int					ft_abs(int x);
+ssize_t				ft_abs(ssize_t x);
+ssize_t				ft_min(ssize_t i, ssize_t j);
+ssize_t				ft_max(ssize_t i, ssize_t j);
 char				*checkintstr(char *str);
 int					ft_islowercase(const int c);
 int					ft_isuppercase(const int c);

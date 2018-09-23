@@ -6,34 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:09:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/20 09:36:07 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/23 17:11:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-static inline int	*read_nums_from_str(char *line, int width)
-{
-	int		i;
-	int		j;
-	int		*intstr;
-
-	i = 0;
-	j = 0;
-	if ((intstr = malloc(sizeof(int) * width)) == NULL)
-		put_error(6);
-	while (line[i] != '\0')
-	{
-		while (ft_iswhitespace(line[i]))
-			i++;
-		intstr[j++] = ft_atoi(line + i);
-		while (ft_isdigit(line[i]))
-			i++;
-	}
-	return (intstr);
-}
-
-static inline int	count_digits_in_str(char *line)
+static inline int		count_digits_in_str(char *line)
 {
 	int		i;
 	int		width;
@@ -53,43 +32,73 @@ static inline int	count_digits_in_str(char *line)
 	return (width);
 }
 
-static inline void	handle_map(t_fdf *f)
+static inline void		handle_one_line(t_fdf *f, int *m, int y, char *line)
 {
-	t_list	*tmp;
-	int		i;
+	int			i;
+	int			j;
+	int			x;
 
-	if ((f->map = malloc(sizeof(int*) * (f->max.y + 1))) == NULL)
-		put_error(6);
-	f->map[f->max.y] = NULL;
-	tmp = f->l;
-	if ((f->max.x = count_digits_in_str(tmp->content)) < 0)
-		put_error(7);
-	i = 0;
-	while (tmp != NULL && i < f->max.y)
+	i = *m;
+	j = 0;
+	x = 0;
+	while (line[j])
 	{
-		if (f->max.x != count_digits_in_str(tmp->content))
-			put_error(7);
-		f->map[i++] = read_nums_from_str(tmp->content, f->max.x);
+		while (ft_iswhitespace(line[j]))
+			j++;
+		MAP[i].y = y;
+		MAP[i].z = ft_atoi(line + j);
+		MAP[i].x = x++;
+		while (ft_isdigit(line[j]))
+			j++;
+		i++;
+	}
+	*m = i;
+}
+
+static inline void		handle_map(t_fdf *f)
+{
+	t_list		*tmp;
+	int			i;
+	int			x;
+	int			y;
+
+	((MAP = malloc(sizeof(t_pixel) * VOLUME)) == NULL) ? put_error(6) : false;
+	tmp = f->l;
+	i = 0;
+	y = 0;
+	while (tmp != NULL && i < VOLUME)
+	{
+		handle_one_line(f, &i, y, tmp->content);
 		tmp = tmp->next;
+		y++;
 	}
 }
 
-inline void			read_map(int ac, char **av, t_fdf *f)
+inline void				read_map(int ac, char **av, t_fdf *f)
 {
 	int		ret;
+	int		fd;
 	char	*line;
 	t_list	**tmp;
 
+	((fd = open(av[1], O_RDONLY)) < 0) ? put_error(2) : false;
 	tmp = &f->l;
-	f->max.y = 0;
-	while ((ret = get_next_line(f->fd, &line)) > 0)
+	MX.y = 0;
+	MX.x = 0;
+	while ((ret = get_next_line(fd, &line)) > 0)
 	{
-		f->max.y++;
+		MX.y++;
+		if (!MX.x
+		&& (MX.x = count_digits_in_str(line)) < 0)
+			put_error(7);
+		else if (MX.x != count_digits_in_str(line))
+			put_error(7);
 		if ((*tmp = ft_lstnew(line, ft_strlen(line) + 1)) == NULL)
 			put_error(6);
 		tmp = &(*tmp)->next;
 	}
-	if (ret < 0)
-		put_error(5);
+	(ret < 0) ? put_error(5) : false;
+	VOLUME = MX.y * MX.x;
 	handle_map(f);
+	(close(fd) < 0) ? put_error(10) : false;
 }
