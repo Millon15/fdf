@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 06:39:02 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 17:14:13 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:56:09 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static inline void		put_pixel_on_image(t_fdf *f, int x, int y)
 	mlx_get_color_value(f->mlx, 0xffffff);
 }
 
-static inline void		put_pixels1(t_coo p[2], t_fdf *f,
+static inline void		put_pixels_x(t_coo p[2], t_fdf *f,
 	const t_coo *d, const int iter[2])
 {
 	int				di;
@@ -32,6 +32,7 @@ static inline void		put_pixels1(t_coo p[2], t_fdf *f,
 	x = p[0].x + s.x;
 	y = p[0].y;
 	i = 1;
+	put_pixel_on_image(f, p[0].x, p[0].y);
 	while (i <= d->x)
 	{
 		if (di > 0)
@@ -47,7 +48,7 @@ static inline void		put_pixels1(t_coo p[2], t_fdf *f,
 	}
 }
 
-static inline void		put_pixels2(t_coo p[2], t_fdf *f,
+static inline void		put_pixels_y(t_coo p[2], t_fdf *f,
 	const t_coo *d, const int iter[2])
 {
 	int				di;
@@ -85,9 +86,9 @@ static inline void		bond_two_pixels(t_coo p[2], t_fdf *f)
 		((d.y <= d.x) ? d.y - d.x : d.x - d.y) << 1};
 
 	if (d.y <= d.x)
-		put_pixels1(p, f, &d, iter);
+		put_pixels_x(p, f, &d, iter);
 	else
-		put_pixels2(p, f, &d, iter);
+		put_pixels_y(p, f, &d, iter);
 }
 
 inline void				put_map(t_fdf *f)
@@ -99,11 +100,11 @@ inline void				put_map(t_fdf *f)
 	ft_bzero(f->dim, IMG_MAX_Y * IMG_MAX_X * sizeof(int));
 	mlx_clear_window(f->mlx, f->win);
 	i = -1;
-	while (++i <= VOLUME)
+	while (++i < VOLUME)
 	{
 		p[0].x = MAP[i].x;
 		p[0].y = MAP[i].y;
-		if ((i + 1) % MX.x
+		if ((i + 1) < VOLUME
 		&& (p[1].x = MAP[i + 1].x) | 1
 		&& (p[1].y = MAP[i].y) | 1)
 			bond_two_pixels(p, f);

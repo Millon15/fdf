@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:03 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 17:10:49 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:56:19 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,9 @@ typedef struct	s_pixel
 	int			x;
 	int			y;
 	int			z;
+	int			x_bak;
+	int			y_bak;
+	int			z_bak;
 
 }				t_pixel;
 
@@ -117,8 +120,10 @@ void			prepare_map(t_fdf *f);
 void			put_map(t_fdf *f);
 void			deinit_mlx(t_fdf *f);
 
-void			increace_map(t_fdf *f);
-void			decreace_map(t_fdf *f);
+void			increase_map(t_fdf *f);
+void			decrease_map(t_fdf *f);
+
+void			put_center(t_fdf *f);
 
 void			rotation_z(t_fdf *f, long double z);
 void			rotation_y(t_fdf *f, long double y);

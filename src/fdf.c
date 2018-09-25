@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 17:07:40 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:56:39 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ static inline int	key_hook(int key, t_fdf *f)
 	if (key == ESC || key == Q)
 		exit(0);
 	else if (key == PLUS || key == PLUS1)
-		increace_map(f);
+		increase_map(f);
 	else if (key == MINUS || key == MINUS1)
-		decreace_map(f);
+		decrease_map(f);
 	else if (key == LEFT || key == LEFT1 || key == LEFT2)
 		rotation_y(f, 10);
 	else if (key == RIGHT || key == RIGHT1 || key == RIGHT2)
@@ -50,22 +50,27 @@ static inline int	key_hook(int key, t_fdf *f)
 		rotation_z(f, 10);
 	else if (key == HDOWN || key == HDOWN1 || key == HDOWN2 || key == HDOWN3)
 		rotation_z(f, -10);
+	else if (key == SPACE)
+		put_center(f);
 	put_map(f);
 	return (0);
 }
 
 int					main(int ac, char **av)
 {
-	t_fdf			f;
+	t_fdf			fdf;
+	t_fdf			*f;
 
 	if (ac <= 1 && ac > 2)
 		put_error(1);
-	read_map(ac, av, &f);
-	init_mlx(av, &f);
-	prepare_map(&f);
-	put_map(&f);
-	mlx_key_hook(f.win, &key_hook, &f);
-	mlx_loop(f.mlx);
-	deinit_mlx(&f);
+	f = &fdf;
+	ft_bzero(f, sizeof(t_fdf));
+	read_map(ac, av, f);
+	init_mlx(av, f);
+	prepare_map(f);
+	put_map(f);
+	mlx_key_hook(fdf.win, &key_hook, f);
+	mlx_loop(fdf.mlx);
+	deinit_mlx(f);
 	return (0);
 }

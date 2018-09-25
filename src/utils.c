@@ -6,16 +6,14 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/23 01:21:40 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 17:08:42 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 21:56:32 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-void		increace_map(t_fdf *f)
+void		increase_map(t_fdf *f)
 {
-	const int	s2 = SCALE / 2;
-	const int	s4 = SCALE / 4;
 	int			i;
 
 	i = -1;
@@ -23,13 +21,12 @@ void		increace_map(t_fdf *f)
 	{
 		MAP[i].x *= SCALE_CHANGER;
 		MAP[i].y *= SCALE_CHANGER;
+		MAP[i].z *= SCALE_CHANGER;
 	}
 }
 
-void		decreace_map(t_fdf *f)
+void		decrease_map(t_fdf *f)
 {
-	const int	s2 = SCALE / 2;
-	const int	s4 = SCALE / 4;
 	int			i;
 
 	i = -1;
@@ -37,6 +34,7 @@ void		decreace_map(t_fdf *f)
 	{
 		MAP[i].x /= SCALE_CHANGER;
 		MAP[i].y /= SCALE_CHANGER;
+		MAP[i].z /= SCALE_CHANGER;
 	}
 }
 

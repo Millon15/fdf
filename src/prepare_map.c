@@ -6,13 +6,13 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/23 07:33:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/23 17:14:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/25 20:51:21 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fdf.h>
 
-static inline void		put_center(t_fdf *f)
+void					put_center(t_fdf *f)
 {
 	const int	s2 = SCALE / 2;
 	const int	s4 = SCALE / 4;
@@ -21,8 +21,26 @@ static inline void		put_center(t_fdf *f)
 	i = -1;
 	while (++i < VOLUME)
 	{
-		MAP[i].x = MAP[i].x * s2 + MX.x * s4;
-		MAP[i].y = MAP[i].y * s2 + MX.y * s4;
+		MAP[i].x = MAP[i].x_bak * s2 + MX.x * s4;
+		MAP[i].y = MAP[i].y_bak * s2 + MX.y * s4;
+		// MAP[i].x = MAP[i].x_bak * SCALE;
+		// MAP[i].y = MAP[i].y_bak * SCALE;
+		MAP[i].z = MAP[i].z_bak * s4;
+	}
+}
+
+static inline void		prepare_to_rotation(t_fdf *f)
+{
+	const int	center = VOLUME / 2;
+	const int	ls = f->line_size / 2;
+	int			i;
+
+	i = -1;
+	while (++i < VOLUME)
+	{
+		MAP[i].x = MAP[i].x - ls;
+		MAP[i].y = MAP[i].y_bak * SCALE;
+		MAP[i].z = MAP[i].z_bak * SCALE;
 	}
 }
 
