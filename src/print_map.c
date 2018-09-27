@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/20 06:39:02 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 21:56:09 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/27 20:49:14 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,14 +97,14 @@ inline void				put_map(t_fdf *f)
 	t_coo			p[2];
 	int				i;
 
-	ft_bzero(f->dim, IMG_MAX_Y * IMG_MAX_X * sizeof(int));
+	ft_bzero(f->dim, WLEN * WHEI * sizeof(int));
 	mlx_clear_window(f->mlx, f->win);
 	i = -1;
 	while (++i < VOLUME)
 	{
 		p[0].x = MAP[i].x;
 		p[0].y = MAP[i].y;
-		if ((i + 1) < VOLUME
+		if ((i + 1) % MX.x && (i + 1) < VOLUME
 		&& (p[1].x = MAP[i + 1].x) | 1
 		&& (p[1].y = MAP[i].y) | 1)
 			bond_two_pixels(p, f);

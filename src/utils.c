@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/23 01:21:40 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 21:56:32 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/27 20:58:24 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,20 @@ void		decrease_map(t_fdf *f)
 
 void		init_mlx(char **av, t_fdf *f)
 {
-	const int	x = IMG_MAX_X;
-	const int	y = IMG_MAX_Y;
+	WLEN = MX.x * SCALE;
+	WHEI = MX.y * SCALE;
 
+	// if (WLEN < 10)
+	// 	WLEN = 200;
+	// if (WHEI < 10)
+	// 	WHEI = 50;
 	if ((f->mlx = mlx_init()) == NULL)
 		put_error(3);
-	if ((f->win = mlx_new_window(f->mlx, x, y, av[1])) == NULL)
+	if ((f->win =
+	mlx_new_window(f->mlx, WLEN, WHEI, av[1])) == NULL)
 		put_error(4);
-	if ((f->img = mlx_new_image(f->mlx, x, y)) == NULL)
+	if ((f->img =
+	mlx_new_image(f->mlx, WLEN, WHEI)) == NULL)
 		put_error(8);
 	if ((f->dim = (int*)
 	mlx_get_data_addr(f->img, &f->bpp, &f->line_size, &f->endian)) == NULL)

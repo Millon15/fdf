@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/19 00:09:49 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 21:29:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/27 17:23:05 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static inline int		count_digits_in_str(char *line)
 		width++;
 		while (ft_iswhitespace(line[i]))
 			i++;
-		if (!ft_isdigit(line[i]))
+		if (!ft_isdigit(line[i]) && line[i] != '-')
 			return (-1);
 		while (ft_isdigit(line[i]))
 			i++;
@@ -34,6 +34,8 @@ static inline int		count_digits_in_str(char *line)
 
 static inline void		handle_one_line(t_fdf *f, int *m, int y, char *line)
 {
+	const int	mxx2 = MX.x / 2;
+	const int	mxy2 = MX.y / 2;
 	int			i;
 	int			j;
 	int			x;
@@ -45,12 +47,12 @@ static inline void		handle_one_line(t_fdf *f, int *m, int y, char *line)
 	{
 		while (ft_iswhitespace(line[j]))
 			j++;
+		MAP[i].x = x++;
 		MAP[i].y = y;
 		MAP[i].z = ft_atoi(line + j);
-		MAP[i].x = x++;
-		MAP[i].y_bak = MAP[i].y;
-		MAP[i].z_bak = MAP[i].z;
-		MAP[i].x_bak = MAP[i].x;
+		MAP[i].x_orig = MAP[i].x - mxx2;
+		MAP[i].y_orig = MAP[i].y - mxy2;
+		MAP[i].z_orig = MAP[i].z;
 		while (ft_isdigit(line[j]))
 			j++;
 		i++;

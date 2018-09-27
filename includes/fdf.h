@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:03 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 21:56:19 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/27 17:17:47 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,7 @@ enum	e_rotators
 enum	e_height_changers
 {
 	HUP = 116,
-	HUP1 = 115,
-	HUP2 = 258,
-	HUP3 = 257,
 	HDOWN = 121,
-	HDOWN1 = 119,
-	HDOWN2 = 256,
-	HDOWN3 = 269
 };
 
 /*
@@ -72,11 +66,12 @@ enum	e_height_changers
 
 # define SCALE				40
 # define SCALE_CHANGER		1.1
-# define IMG_MAX_X			(f->max.x * SCALE)
-# define IMG_MAX_Y			(f->max.y * SCALE)
 # define MX					(f->max)
+# define ANGLE				(f->angle)
 # define MAP				(f->map)
 # define VOLUME				(f->max.z)
+# define WLEN				(f->window_length)
+# define WHEI				(f->window_height)
 
 typedef struct	s_coordinates
 {
@@ -85,14 +80,25 @@ typedef struct	s_coordinates
 
 }				t_coo;
 
+typedef struct	s_angle
+{
+	long double		x;
+	long double		y;
+	long double		z;
+
+}				t_angle;
+
 typedef struct	s_pixel
 {
 	int			x;
 	int			y;
 	int			z;
-	int			x_bak;
-	int			y_bak;
-	int			z_bak;
+	int			x_orig;
+	int			y_orig;
+	int			z_orig;
+	int			x_back;
+	int			y_back;
+	int			z_back;
 
 }				t_pixel;
 
@@ -107,8 +113,12 @@ typedef struct	s_fdf
 	int			line_size;
 	int			endian;
 
+	int			window_length;
+	int			window_height;
+
 	t_list		*l;
 	t_pixel		max;
+	t_angle		angle;
 	t_pixel		*map;
 
 }				t_fdf;
@@ -125,8 +135,8 @@ void			decrease_map(t_fdf *f);
 
 void			put_center(t_fdf *f);
 
-void			rotation_z(t_fdf *f, long double z);
-void			rotation_y(t_fdf *f, long double y);
-void			rotation_x(t_fdf *f, long double x);
+void			rotation_z(t_fdf *f, float z);
+void			rotation_y(t_fdf *f, float y);
+void			rotation_x(t_fdf *f, float x);
 
 #endif

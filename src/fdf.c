@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 21:56:39 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/27 17:32:20 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void				put_error(int errnum)
 	exit(1);
 }
 
-static inline int	key_hook(int key, t_fdf *f)
+static inline int	key_handle(int key, t_fdf *f)
 {
 	if (key == ESC || key == Q)
 		exit(0);
@@ -46,12 +46,12 @@ static inline int	key_hook(int key, t_fdf *f)
 		rotation_x(f, 10);
 	else if (key == DOWN || key == DOWN1 || key == DOWN2)
 		rotation_x(f, -10);
-	else if (key == HUP || key == HUP1 || key == HUP2 || key == HUP3)
+	else if (key == HUP)
 		rotation_z(f, 10);
-	else if (key == HDOWN || key == HDOWN1 || key == HDOWN2 || key == HDOWN3)
+	else if (key == HDOWN)
 		rotation_z(f, -10);
 	else if (key == SPACE)
-		put_center(f);
+		prepare_map(f);
 	put_map(f);
 	return (0);
 }
@@ -69,7 +69,7 @@ int					main(int ac, char **av)
 	init_mlx(av, f);
 	prepare_map(f);
 	put_map(f);
-	mlx_key_hook(fdf.win, &key_hook, f);
+	mlx_hook(fdf.win, 2, 5, &key_handle, f);
 	mlx_loop(fdf.mlx);
 	deinit_mlx(f);
 	return (0);

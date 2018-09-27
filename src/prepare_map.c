@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/23 07:33:27 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/25 20:51:21 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/28 01:19:54 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,77 +16,84 @@ void					put_center(t_fdf *f)
 {
 	const int	s2 = SCALE / 2;
 	const int	s4 = SCALE / 4;
+	const int	const_x = MX.x / 2 * s2 + MX.x * s4;
+	const int	const_y = MX.y / 2 * s2 + MX.y * s4;
+	const int	win2 = f->line_size / 2;
 	int			i;
 
 	i = -1;
 	while (++i < VOLUME)
 	{
-		MAP[i].x = MAP[i].x_bak * s2 + MX.x * s4;
-		MAP[i].y = MAP[i].y_bak * s2 + MX.y * s4;
-		// MAP[i].x = MAP[i].x_bak * SCALE;
-		// MAP[i].y = MAP[i].y_bak * SCALE;
-		MAP[i].z = MAP[i].z_bak * s4;
+		MAP[i].x = MAP[i].x_back * s2 + const_x;
+		MAP[i].y = MAP[i].y_back * s2 + const_y;
+		// MAP[i].x = MAP[i].x_back + win2;
+		// MAP[i].y = MAP[i].y_back + win2;
 	}
 }
 
-static inline void		prepare_to_rotation(t_fdf *f)
+void					rotation_z(t_fdf *f, float z)
 {
-	const int	center = VOLUME / 2;
-	const int	ls = f->line_size / 2;
-	int			i;
-
-	i = -1;
-	while (++i < VOLUME)
-	{
-		MAP[i].x = MAP[i].x - ls;
-		MAP[i].y = MAP[i].y_bak * SCALE;
-		MAP[i].z = MAP[i].z_bak * SCALE;
-	}
-}
-
-void					rotation_z(t_fdf *f, long double z)
-{
+	long double		rad;
+	long double		x;
+	long double		y;
 	int				i;
 
+	ANGLE.z += z;
+	rad = (ANGLE.z * M_PI) / 180;
 	i = -1;
 	while (++i < VOLUME)
 	{
-		MAP[i].x =
-		MAP[i].x * cos((z * M_PI) / 180) - MAP[i].y * sin((z * M_PI) / 180);
-		MAP[i].y =
-		MAP[i].x * sin((z * M_PI) / 180) + MAP[i].y * cos((z * M_PI) / 180);
+		x = MAP[i].x_orig;
+		y = MAP[i].y_orig;
+		MAP[i].x_back = x * cos(rad) - y * sin(rad);
+		MAP[i].y_back = x * sin(rad) + y * cos(rad);
 	}
+	put_center(f);
 }
 
-void					rotation_y(t_fdf *f, long double y)
+void					rotation_y(t_fdf *f, float y)
 {
+	long double		rad;
+	long double		x;
+	long double		z;
 	int				i;
 
+	ANGLE.y += y;
+	rad = (ANGLE.y * M_PI) / 180;
 	i = -1;
 	while (++i < VOLUME)
 	{
-		MAP[i].z =
-		MAP[i].z * cos((y * M_PI) / 180) - MAP[i].x * sin((y * M_PI) / 180);
-		MAP[i].x =
-		MAP[i].z * sin((y * M_PI) / 180) + MAP[i].x * cos((y * M_PI) / 180);
+		x = MAP[i].x_orig;
+		z = MAP[i].z_orig;
+		MAP[i].z_back = z * cos(rad) + x * sin(rad);
+		MAP[i].x_back = z * sin(rad) + x * cos(rad);
 	}
+	put_center(f);
 }
 
-void					rotation_x(t_fdf *f, long double x)
+void					rotation_x(t_fdf *f, float x)
 {
+	long double		rad;
+	long double		y;
+	long double		z;
 	int				i;
 
+	ANGLE.x += x;
+	rad = (ANGLE.x * M_PI) / 180;
 	i = -1;
 	while (++i < VOLUME)
 	{
-		MAP[i].y =
-		MAP[i].y * cos((x * M_PI) / 180) - MAP[i].z * sin((x * M_PI) / 180);
-		MAP[i].z =
-		MAP[i].y * sin((x * M_PI) / 180) + MAP[i].z * cos((x * M_PI) / 180);
+		y = MAP[i].y_orig;
+		z = MAP[i].z_orig;
+		MAP[i].y_back = y * cos(rad) - z * sin(rad);
+		MAP[i].z_back = y * sin(rad) + z * cos(rad);
 	}
+	put_center(f);
 }
 
 inline void				prepare_map(t_fdf *f)
 {
-	put_center(f);
+	ft_bzero(&ANGLE, sizeof(t_angle));
+	rotation_x(f, 50);
+	rotation_y(f, 10);
 }
