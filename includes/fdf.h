@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:03 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/27 17:17:47 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 03:10:23 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,33 +72,31 @@ enum	e_height_changers
 # define VOLUME				(f->max.z)
 # define WLEN				(f->window_length)
 # define WHEI				(f->window_height)
+# define WSIZE				(f->window_size)
+
+typedef long double			accuracy_mod;
 
 typedef struct	s_coordinates
 {
 	int			x;
 	int			y;
+	int			z;
 
 }				t_coo;
 
-typedef struct	s_angle
+typedef struct	s_triplex
 {
-	long double		x;
-	long double		y;
-	long double		z;
+	accuracy_mod	x;
+	accuracy_mod	y;
+	accuracy_mod	z;
 
 }				t_angle;
 
 typedef struct	s_pixel
 {
-	int			x;
-	int			y;
-	int			z;
-	int			x_orig;
-	int			y_orig;
-	int			z_orig;
-	int			x_back;
-	int			y_back;
-	int			z_back;
+	t_angle		c;
+	t_angle		orig;
+	t_angle		temp;
 
 }				t_pixel;
 
@@ -115,9 +113,10 @@ typedef struct	s_fdf
 
 	int			window_length;
 	int			window_height;
+	int			window_size;
 
 	t_list		*l;
-	t_pixel		max;
+	t_coo		max;
 	t_angle		angle;
 	t_pixel		*map;
 
@@ -135,8 +134,8 @@ void			decrease_map(t_fdf *f);
 
 void			put_center(t_fdf *f);
 
-void			rotation_z(t_fdf *f, float z);
-void			rotation_y(t_fdf *f, float y);
-void			rotation_x(t_fdf *f, float x);
+void			rotation_z(t_fdf *f, accuracy_mod z);
+void			rotation_y(t_fdf *f, accuracy_mod y);
+void			rotation_x(t_fdf *f, accuracy_mod x);
 
 #endif

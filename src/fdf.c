@@ -6,7 +6,7 @@
 /*   By: vbrazas <vbrazas@student.unit.ua>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/18 22:41:04 by vbrazas           #+#    #+#             */
-/*   Updated: 2018/09/27 17:32:20 by vbrazas          ###   ########.fr       */
+/*   Updated: 2018/09/30 02:44:10 by vbrazas          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,15 +33,15 @@ void				put_error(int errnum)
 static inline int	key_handle(int key, t_fdf *f)
 {
 	if (key == ESC || key == Q)
-		exit(0);
+		deinit_mlx(f);
 	else if (key == PLUS || key == PLUS1)
 		increase_map(f);
 	else if (key == MINUS || key == MINUS1)
 		decrease_map(f);
 	else if (key == LEFT || key == LEFT1 || key == LEFT2)
-		rotation_y(f, 10);
-	else if (key == RIGHT || key == RIGHT1 || key == RIGHT2)
 		rotation_y(f, -10);
+	else if (key == RIGHT || key == RIGHT1 || key == RIGHT2)
+		rotation_y(f, 10);
 	else if (key == UP || key == UP1 || key == UP2)
 		rotation_x(f, 10);
 	else if (key == DOWN || key == DOWN1 || key == DOWN2)
